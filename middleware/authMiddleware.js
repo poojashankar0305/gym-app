@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const authorizeRoles = (...allowedRoles) => {
     return (req, res, next) => {
       // Assuming user info is in req.user (populated by previous auth middleware)
-      const user = req.body.user;
+      const user = req.user;
       console.log(`user data -> ${JSON.stringify(user)}`);
   
       if (!user) {
@@ -20,7 +20,7 @@ const authorizeRoles = (...allowedRoles) => {
   };
 
   function generateToken(user) {
-    const payload = { id: user.id, username: user.username };
+    const payload = { id: user.id, username: user.username, role: user.role };
     return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '15m' });
   }
 
@@ -32,7 +32,8 @@ const authorizeRoles = (...allowedRoles) => {
   
     jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
       if (err) return res.status(403).json({ message: 'Invalid token' });
-  
+
+      console.log(JSON.stringify(user));
       req.user = user; // attach user info to request
       next();
     });

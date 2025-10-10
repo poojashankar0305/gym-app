@@ -10,7 +10,7 @@ const {
 const users = [
   {
     id: 1,
-    role: 'admin',
+    role: 'super-admin',
     firstName: 'Pooja',
     lastName: 'Shankar',
     email: 'pooja@test.com',

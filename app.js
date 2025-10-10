@@ -9,7 +9,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 var loginRouter = require('./routes/loginRoute');
-var adminRouter = require('./routes/admin');
+var superAdminRouter = require('./routes/superAdmin');
 
 dotenv.config();
 
@@ -25,6 +25,6 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
 app.use(process.env.VERSION, loginRouter);
-app.use(`${process.env.VERSION}admin/`, adminRouter);
+app.use(`${process.env.VERSION}super-admin/`, superAdminRouter);
 
 module.exports = app;
