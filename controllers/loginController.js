@@ -12,7 +12,7 @@ const users = [
 
 loginUser = (req, res, next) => {
   const users = loginService.loginUser(req, res, next);
-  res.json(users);
+  return users;
 };
 
 module.exports = { loginUser };

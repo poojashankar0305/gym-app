@@ -1,10 +1,16 @@
 // services/userService.js
 
 const { generateToken } = require('../middleware/authMiddleware');
+const { 
+  LOGIN_INVALID_CREDENTIALS,
+  LOGIN_NO_CREDENTIALS,
+  LOGIN_SUCCESS_MSG
+ } = require('../public/constants/APP_MESSAGES');
 
 const users = [
   {
     id: 1,
+    role: 'admin',
     username: 'john',
     password: 'password123', // In production, hash passwords!
   }
@@ -12,16 +18,18 @@ const users = [
 
   
 loginUser = (req, res, next) => {
-  if (!req?.body) {
-    return res.status(401).json({ message: 'Please provide valid credentials' });
+  console.log(JSON.stringify(req.body));
+  if (!req.body.username) {
+    return res.status(401).json({ message: LOGIN_NO_CREDENTIALS });
   }
-  const { username, password } = req?.body;
+  const { username, password } = req.body;
 
   const user = users.find(u => u.username === username && u.password === password);
-  if (!user) return res.status(401).json({ message: 'Invalid credentials' });
+  if (!user) return res.status(401).json({ message: LOGIN_INVALID_CREDENTIALS });
+  delete user.password;
 
   const token = generateToken(user);
-  res.json({ token });
+  res.json({ token, user });
 };
 
 module.exports = { loginUser };
