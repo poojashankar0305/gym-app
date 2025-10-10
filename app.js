@@ -9,6 +9,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 var loginRouter = require('./routes/loginRoute');
+var adminRouter = require('./routes/admin');
 
 dotenv.config();
 
@@ -22,6 +23,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+
 app.use(process.env.VERSION, loginRouter);
+app.use(`${process.env.VERSION}admin/`, adminRouter);
 
 module.exports = app;

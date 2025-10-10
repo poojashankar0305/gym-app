@@ -11,7 +11,10 @@ const users = [
   {
     id: 1,
     role: 'admin',
-    username: 'john',
+    firstName: 'Pooja',
+    lastName: 'Shankar',
+    email: 'pooja@test.com',
+    username: 'pooja',
     password: 'password123', // In production, hash passwords!
   }
 ];
@@ -27,9 +30,9 @@ loginUser = (req, res, next) => {
   const user = users.find(u => u.username === username && u.password === password);
   if (!user) return res.status(401).json({ message: LOGIN_INVALID_CREDENTIALS });
   delete user.password;
-
+  const expiresIn = 15 * 60;
   const token = generateToken(user);
-  res.json({ token, user });
+  res.json({ token, expiresIn, user });
 };
 
 module.exports = { loginUser };
