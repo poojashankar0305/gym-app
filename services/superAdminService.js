@@ -1,27 +1,20 @@
 // services/superAdminService.js
-
-const roles = [
-  {
-    id: 1,
-    role: 'super-admin'
-  },
-  {
-    id: 2,
-    role: 'admin'
-  },
-  {
-    id: 3,
-    role: 'trainer'
-  },
-  {
-    id: 4,
-    role: 'student'
-  }
-];
-
+const { 
+  createConnection
+ } = require('../public/database/dbConnect');
   
-getAllRoles = (req, res, next) => {
-  res.json({ roles });
+getAllRoles = async (req, res, next) => {
+  let connection = await createConnection();
+  try{
+    let rolesQuery = `SELECT * from roles r where isDeleted=0`;
+    let [result] = await connection.query(rolesQuery);
+    res.status(200).json({ status: 200, roles: result});
+  }catch(error){
+    console.log(error);
+    res.status(500).json({status: 500, message: 'Something Went wrong. Please contact administrator'});  
+  }finally{
+    await connection.end();
+  }
 };
 
 module.exports = { getAllRoles };

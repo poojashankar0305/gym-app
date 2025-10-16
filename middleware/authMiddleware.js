@@ -5,7 +5,6 @@ const authorizeRoles = (...allowedRoles) => {
     return (req, res, next) => {
       // Assuming user info is in req.user (populated by previous auth middleware)
       const user = req.user;
-      console.log(`user data -> ${JSON.stringify(user)}`);
   
       if (!user) {
         return res.status(401).json({ message: 'Unauthorized: No user info' });
@@ -33,7 +32,6 @@ const authorizeRoles = (...allowedRoles) => {
     jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
       if (err) return res.status(403).json({ message: 'Invalid token' });
 
-      console.log(JSON.stringify(user));
       req.user = user; // attach user info to request
       next();
     });

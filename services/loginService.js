@@ -16,6 +16,14 @@ const users = [
     email: 'pooja@test.com',
     username: 'pooja',
     password: 'password123', // In production, hash passwords!
+  },{
+    id: 2,
+    role: 'admin',
+    firstName: 'Shriyaan',
+    lastName: 'Pooja',
+    email: 'shriyaan@test.com',
+    username: 'shriyaan',
+    password: 'password123', // In production, hash passwords!
   }
 ];
 
