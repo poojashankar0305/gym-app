@@ -2,7 +2,6 @@
 
 const userService = require('../services/userService');
 
-exports.getUsers = (req, res) => {
-  const users = userService.getAllUsers();
-  res.json(users);
+exports.getUsers = (req, res, next) => {
+  const users = userService.getAllUsers(req, res, next);
 };

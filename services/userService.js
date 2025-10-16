@@ -1,10 +1,25 @@
 // services/userService.js
+const { 
+  createConnection
+ } = require('../public/database/dbConnect');
 
-const users = [
-    { id: 1, name: 'Alice' },
-    { id: 2, name: 'Bob' }
-  ];
-  
-  exports.getAllUsers = () => {
-    return users;
-  };
+ const { 
+  tablenames
+ } = require('../public/database/tableName');
+
+getAllUsers = async (req, res, next) => {
+  let connection = await createConnection();
+  try{
+    let usersQuery = `SELECT * from ${tablenames.USERS} u where isDeleted=0`;
+    let [result] = await connection.query(usersQuery);
+    res.status(200).json({ status: 200, users: result});
+  }catch(error){
+    console.log(error);
+    res.status(500).json({status: 500, message: 'Something Went wrong. Please contact administrator'});  
+  }finally{
+    await connection.end();
+    console.log(`connection ended succussfully`);
+  }
+};
+
+module.exports = { getAllUsers };
