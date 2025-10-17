@@ -5,4 +5,6 @@ const { authenticateToken, authorizeRoles } = require('../middleware/authMiddlew
 
 router.get('/list', authenticateToken, authorizeRoles('super-admin'), userController.getUsers);
 
+router.get('/create', authenticateToken, authorizeRoles('super-admin'), userController.createUser);
+
 module.exports = router;
